@@ -1,8 +1,12 @@
-import { memo, useState } from "react";
+import { useState, useEffect } from "react";
 import MemoList from "./MemoList";
 import MemoForm from "./MemoForm";
 function App() {
-  const [memos, setMemos] = useState([]);
+  if(!window.localStorage.getItem('memo')) {
+    window.localStorage.setItem("memo", JSON.stringify([]));
+  }
+  const storage = JSON.parse(window.localStorage.getItem('memo'));
+  const [memos, setMemos] = useState(storage);
   //選択されているメモのインデックスを保持
   const [num, setNum] = useState('');
   function getTime() {
@@ -15,6 +19,13 @@ function App() {
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}`;
     return formattedDate;
   }
+  useEffect(() => {
+    updateStorage();
+  }, [memos]);
+  function updateStorage() {
+    console.log(memos);
+    window.localStorage.setItem("memo", JSON.stringify(memos));
+  }
   function updateNum(index) {
     setNum(index)
   }
@@ -24,12 +35,12 @@ function App() {
       content:'',
       date: getTime(),
     }]);
-    updateNum(memos.length)
+    updateNum(memos.length);
   }
   function updateMemo(e) {
     setMemos(memos.map((memo, index) =>
       index === num ? {...memo, [e.target.name]: e.target.value, date: getTime()} : memo
-    ))
+    ));
   }
   function deleteMemo(indexNum) {
     setMemos(
