@@ -19,7 +19,6 @@ function App() {
     setNum(index)
   }
   function createMemo() {
-    console.log('create');
     setMemos([...memos, {
       title: '',
       content:'',
@@ -27,11 +26,15 @@ function App() {
     }]);
     updateNum(memos.length)
   }
-  
+  function deleteMemo(num) {
+    setMemos(
+      memos.filter((memo, index) => (index !== num))
+    )
+  }
   return (
     <div className="App">
       <h1>Memo</h1>
-      <MemoList createMemo={createMemo} updateNum={updateNum} memos={memos} />
+      <MemoList createMemo={createMemo} updateNum={updateNum} deleteMemo={deleteMemo} memos={memos} />
       {num !== '' && <MemoForm {...memos[num]} />}
     </div>
   );
