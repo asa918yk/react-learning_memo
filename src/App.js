@@ -26,16 +26,22 @@ function App() {
     }]);
     updateNum(memos.length)
   }
-  function deleteMemo(num) {
+  function updateMemo(e) {
+    setMemos(memos.map((memo, index) =>
+      index === num ? {...memo, [e.target.name]: e.target.value, date: getTime()} : memo
+    ))
+  }
+  function deleteMemo(indexNum) {
     setMemos(
-      memos.filter((memo, index) => (index !== num))
+      memos.filter((memo, index) => (index !== indexNum))
     )
+    updateNum('');
   }
   return (
     <div className="App">
       <h1>Memo</h1>
       <MemoList createMemo={createMemo} updateNum={updateNum} deleteMemo={deleteMemo} memos={memos} />
-      {num !== '' && <MemoForm {...memos[num]} />}
+      {num !== '' && <MemoForm {...memos[num]} activeIndex={num} updateMemo={updateMemo} />}
     </div>
   );
 }

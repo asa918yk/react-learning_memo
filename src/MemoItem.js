@@ -10,7 +10,7 @@ export default function MemoItem({title, content, date, updateNum, index, delete
       <button onClick={select}>
         <span>【{title ? title : "新規メモ"}】</span>
         <span className="content">{content ? content : "追加テキストなし"}</span>
-        <time dateTime={date}>{date}</time>
+        <time dateTime={date}>：{date}</time>
       </button>
       <button onClick={deleteItem}>削除する</button>
     </div>
